@@ -1842,7 +1842,7 @@ function runImports(jobs,pre){
       } else p=convertOne(f).then(function(r){ return {name:f.name,r:r}; });
     }
     return p.then(function(x){ results.push(x); },
-      function(e){ results.push({name:j.url||j.file.name,err:e}); toast((e&&e.message)||'No se pudo convertir'); }).then(next);
+      function(e){ var nm=j.url||j.file.name, m=(e&&e.message)||''; results.push({name:nm,err:e}); toast(/[áéíóúñ]|No se|Revisa|formato|Ese /i.test(m)?m:'No se pudo convertir '+nm+(m?' ('+m+')':'')); }).then(next);
   }
   next().then(function(){
     busy(null); importing=false;
