@@ -12,9 +12,10 @@ for s in 16 32 128 256 512; do
 done
 iconutil -c icns "$B/AppIcon.iconset" -o "$B/AppIcon.icns"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-swiftc -O mac/main.swift -o "$APP/Contents/MacOS/MarkdownStudio" -target arm64-apple-macos13.0
+swiftc -O mac/main.swift mac/convert.swift -o "$APP/Contents/MacOS/MarkdownStudio" -target arm64-apple-macos13.0
 cp mac/Info.plist "$APP/Contents/Info.plist"
 cp index.html "$APP/Contents/Resources/index.html"
+cp -R lib "$APP/Contents/Resources/lib"
 cp "$B/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
 xattr -cr "$APP"
 codesign --force --deep --sign - "$APP"

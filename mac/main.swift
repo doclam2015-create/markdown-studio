@@ -8,6 +8,25 @@ import UniformTypeIdentifiers
 final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandlerWithReply, WKNavigationDelegate, WKUIDelegate {
     var window: NSWindow!
     var web: WKWebView!
+    let converter = Converter()
+
+    // Archivos elegidos en el panel: el Mac convierte los formatos nativos y entrega el resto a la página
+    func convertMany(_ urls: [URL], done: @escaping ([[String: Any]]) -> Void) {
+        var out: [[String: Any]] = []
+        var i = 0
+        func next() {
+            guard i < urls.count else { NSLog("MS convertMany listo: %d", out.count); done(out); return }
+            let url = urls[i]; i += 1
+            let name = url.lastPathComponent
+            NSLog("MS convirtiendo %@", name)
+            if nativeExts.contains(url.pathExtension.lowercased()) {
+                converter.convert(url: url, name: name) { out.append($0); next() }
+            } else if let data = try? Data(contentsOf: url) {
+                out.append(["name": name, "b64": data.base64EncodedString()]); next()
+            } else { out.append(["name": name, "error": "No se pudo leer \(name)"]); next() }
+        }
+        next()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let cfg = WKWebViewConfiguration()
@@ -30,7 +49,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
         let url = Bundle.main.url(forResource: "index", withExtension: "html")!
         web.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
         buildMenu()
+        converter.progress = { [weak self] msg, pct in
+            DispatchQueue.main.async {
+                let m = (try? JSONSerialization.data(withJSONObject: [msg])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
+                self?.web.evaluateJavaScript("window.MDApp&&MDApp.progress(\(m)[0],\(pct))", completionHandler: nil)
+            }
+        }
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    // Archivos abiertos desde Finder («Abrir con») o soltados sobre el ícono del Dock
+    var pageReady = false
+    var pendingURLs: [URL] = []
+    func application(_ application: NSApplication, open urls: [URL]) {
+        if pageReady { importURLs(urls) } else { pendingURLs += urls }
+    }
+    func importURLs(_ urls: [URL]) {
+        window?.makeKeyAndOrderFront(nil)
+        convertMany(urls) { list in
+            guard let data = try? JSONSerialization.data(withJSONObject: list), let json = String(data: data, encoding: .utf8) else { return }
+            self.web.evaluateJavaScript("MDApp.progress(null);MDApp.applyNative(\(json));1") { _, e in if let e = e { NSLog("MS JS error: %@", "\(e)") } }
+        }
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        pageReady = true
+        if !pendingURLs.isEmpty { let u = pendingURLs; pendingURLs = []; importURLs(u) }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
@@ -69,19 +112,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
             }
         case "open":
             let panel = NSOpenPanel()
-            panel.allowsMultipleSelection = false
-            panel.allowedContentTypes = ["txt", "md", "markdown", "html", "htm", "csv", "tsv", "json", "log", "xml", "rtf"].compactMap { UTType(filenameExtension: $0) } + [.plainText]
+            panel.allowsMultipleSelection = true
+            panel.canChooseDirectories = false
+            panel.allowedContentTypes = [.item]
+            panel.message = "Elige uno o más archivos: PDF, Word, Excel, PowerPoint, imágenes, audio, video, texto…"
             panel.beginSheetModal(for: window) { resp in
-                guard resp == .OK, let url = panel.url else { replyHandler(nil, nil); return }
-                var content = (try? String(contentsOf: url, encoding: .utf8)) ?? (try? String(contentsOf: url, encoding: .isoLatin1)) ?? ""
-                var fname = url.lastPathComponent
-                if url.pathExtension.lowercased() == "rtf", let att = try? NSAttributedString(url: url, options: [:], documentAttributes: nil),
-                   let data = try? att.data(from: NSRange(location: 0, length: att.length), documentAttributes: [.documentType: NSAttributedString.DocumentType.html]) {
-                    content = String(data: data, encoding: .utf8) ?? att.string
-                    fname = url.deletingPathExtension().lastPathComponent + ".html"
-                }
-                replyHandler(["name": fname, "text": content], nil)
+                guard resp == .OK, !panel.urls.isEmpty else { replyHandler(nil, nil); return }
+                self.convertMany(panel.urls) { replyHandler($0, nil) }
             }
+        case "fetch":
+            guard let s = body["url"] as? String, let u = URL(string: s) else { replyHandler(["error": "Enlace inválido"], nil); return }
+            var req = URLRequest(url: u, timeoutInterval: 40)
+            req.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
+            req.setValue("es-CL,es;q=0.9,en;q=0.7", forHTTPHeaderField: "Accept-Language")
+            URLSession.shared.dataTask(with: req) { data, resp, err in
+                DispatchQueue.main.async {
+                    guard let data = data, err == nil else { replyHandler(["error": err?.localizedDescription ?? "Sin respuesta"], nil); return }
+                    if let h = resp as? HTTPURLResponse, h.statusCode >= 400 { replyHandler(["error": "La página respondió con error \(h.statusCode)"], nil); return }
+                    let mime = (resp?.mimeType ?? "").lowercased()
+                    let head = String(data: data.prefix(512), encoding: .isoLatin1)?.lowercased() ?? ""
+                    if mime.contains("html") || head.contains("<!doctype html") || head.contains("<html") {
+                        var enc = String.Encoding.utf8
+                        if let n = resp?.textEncodingName {
+                            let cf = CFStringConvertIANACharSetNameToEncoding(n as CFString)
+                            if cf != kCFStringEncodingInvalidId { enc = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(cf)) }
+                        }
+                        let html = String(data: data, encoding: enc) ?? String(data: data, encoding: .isoLatin1) ?? ""
+                        replyHandler(["html": html, "url": resp?.url?.absoluteString ?? s], nil)
+                    } else {
+                        replyHandler(["name": resp?.suggestedFilename ?? u.lastPathComponent, "b64": data.base64EncodedString()], nil)
+                    }
+                }
+            }.resume()
+        case "convert":
+            guard let b64 = body["b64"] as? String, let data = Data(base64Encoded: b64) else { replyHandler(["name": name, "error": "Archivo vacío"], nil); return }
+            let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            let url = dir.appendingPathComponent((name as NSString).lastPathComponent)
+            do { try data.write(to: url) } catch { replyHandler(["name": name, "error": error.localizedDescription], nil); return }
+            converter.convert(url: url, name: name) { replyHandler($0, nil) }
         case "share":
             let url = FileManager.default.temporaryDirectory.appendingPathComponent(name)
             try? text.write(to: url, atomically: true, encoding: .utf8)
@@ -131,7 +200,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
         let fileItem = NSMenuItem(); bar.addItem(fileItem)
         let file = NSMenu(title: "Archivo")
         file.addItem(jsItem("Nuevo", "MDApp.clear()", "n"))
-        file.addItem(jsItem("Abrir…", "MDApp.open()", "o"))
+        file.addItem(jsItem("Agregar archivos…", "MDApp.open()", "o"))
+        file.addItem(jsItem("Importar página web…", "MDApp.link()", "l"))
         file.addItem(.separator())
         file.addItem(jsItem("Guardar Markdown…", "MDApp.download()", "s"))
         file.addItem(jsItem("Compartir…", "MDApp.share()", "e", [.command, .shift]))

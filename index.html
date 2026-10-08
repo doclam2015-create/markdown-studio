@@ -199,6 +199,22 @@ textarea::placeholder{color:var(--muted);opacity:.8}
 [data-theme="dark"] .toast button{color:#1F4E8C}
 .toast #toastMsg{padding-right:10px}
 
+.linkbar{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;margin:10px 12px 0;padding:4px;border-radius:12px;background-color:var(--surface2);border:1px solid var(--border)}
+.linkbar input{-webkit-flex:1;flex:1;min-width:0;height:40px;border:0;outline:none;background-color:transparent;color:var(--text);font-size:16px;padding:0 10px;-webkit-appearance:none;appearance:none;font-family:inherit}
+.linkbar button{height:40px;min-width:44px;padding:0 14px;border-radius:9px;font-size:14px;font-weight:700}
+#bUrlGo{background-color:var(--accent);color:var(--onAccent)}
+#bUrlX{color:var(--muted);margin-left:2px}
+.busy{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;margin:10px 12px 0;padding:10px 12px;border-radius:12px;background-color:var(--surface2);border:1px solid var(--border);font-size:13.5px;font-weight:600;color:var(--text)}
+.spin{width:20px;height:20px;border-radius:10px;border:2.5px solid var(--border);border-top-color:var(--accent2);margin-right:12px;-webkit-flex-shrink:0;flex-shrink:0;-webkit-animation:spin .8s linear infinite;animation:spin .8s linear infinite}
+@-webkit-keyframes spin{to{-webkit-transform:rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btxt{-webkit-flex:1;flex:1;min-width:0}
+#busyMsg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bbar{height:4px;border-radius:2px;background-color:var(--border);margin-top:7px;overflow:hidden;position:relative}
+.bbar i{position:absolute;top:0;left:0;bottom:0;width:0;border-radius:2px;background-color:var(--accent2);-webkit-transition:width .25s ease;transition:width .25s ease}
+.bbar.ind i{width:35%;-webkit-animation:ind 1.2s ease-in-out infinite;animation:ind 1.2s ease-in-out infinite}
+@-webkit-keyframes ind{0%{left:-35%}100%{left:100%}}
+@keyframes ind{0%{left:-35%}100%{left:100%}}
 .drop:after{content:'Suelta el archivo aquí';position:absolute;top:0;left:0;right:0;bottom:0;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;background-color:rgba(45,108,223,.12);border:2px dashed var(--accent2);border-radius:18px;color:var(--accent);font-weight:700;font-size:16px}
 #paneIn{position:relative}
 
@@ -227,8 +243,11 @@ textarea::placeholder{color:var(--muted);opacity:.8}
   .opts{padding:8px 12px 4px}
   .opts .chip{margin-bottom:6px}
 }
-@media (max-width:380px){
+@media (max-width:520px), (min-width:1100px) and (max-width:1599px){
   .tbtn span{display:none}
+  .tbtn{min-width:40px;padding:0 8px}
+}
+@media (max-width:380px){
   .abtn{font-size:14.5px}
   .abtn svg{margin-right:6px}
 }
@@ -270,13 +289,16 @@ textarea::placeholder{color:var(--muted);opacity:.8}
         <div class="pt"><i></i>Texto</div>
         <div class="tools">
           <button class="tbtn" id="bPaste" title="Pegar del portapapeles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg><span>Pegar</span></button>
-          <button class="tbtn" id="bOpen" title="Abrir archivo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Abrir</span></button>
+          <button class="tbtn" id="bOpen" title="Abrir archivos: PDF, Word, Excel, PowerPoint, imágenes, audio…"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Archivo</span></button>
+          <button class="tbtn" id="bLink" title="Importar una página web"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>Web</span></button>
           <button class="tbtn" id="bSample" title="Cargar ejemplo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><span>Ejemplo</span></button>
           <button class="tbtn danger" id="bClear" title="Borrar todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14"/></svg></button>
         </div>
       </div>
-      <div class="rich hide" id="rich"><span>Formato enriquecido detectado</span><button id="bPlain">Usar texto plano</button></div>
-      <textarea id="src" placeholder="Pega o escribe cualquier texto: un correo, una nota, una página web, una tabla de Excel, un documento de Word&hellip;&#10;&#10;Se convierte a Markdown mientras escribes." autocapitalize="sentences"></textarea>
+      <div class="linkbar hide" id="linkbar"><input id="urlIn" type="url" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Pega uno o más enlaces: https://…"><button id="bUrlGo">Importar</button><button id="bUrlX" aria-label="Cerrar">&#10005;</button></div>
+      <div class="busy hide" id="busy"><div class="spin"></div><div class="btxt"><div id="busyMsg">Procesando…</div><div class="bbar"><i id="busyBar"></i></div></div></div>
+      <div class="rich hide" id="rich"><span id="richLbl">Formato enriquecido detectado</span><button id="bPlain">Usar texto plano</button></div>
+      <textarea id="src" placeholder="Escribe o pega texto, y combínalo con archivos y páginas web: cada archivo se agrega donde está el cursor. Formatos: PDF, Word, Excel, PowerPoint, OpenDocument, EPUB, correo .eml, imágenes con texto (OCR), audio y video (transcripción)&hellip;&#10;&#10;Se convierte a Markdown al instante. También puedes arrastrar archivos aquí." autocapitalize="sentences"></textarea>
       <div class="opts" id="opts">
         <button class="chip" data-o="title">Título</button>
         <button class="chip" data-o="heads">Encabezados</button>
@@ -327,7 +349,7 @@ textarea::placeholder{color:var(--muted);opacity:.8}
   </nav>
 </div>
 
-<input type="file" id="file" class="vh" accept=".txt,.md,.markdown,.html,.htm,.csv,.tsv,.json,.log,.xml,text/*">
+<input type="file" id="file" class="vh" multiple>
 <div class="toast" id="toast"><span class="ok">&#10003;</span><span id="toastMsg"></span><button id="toastBtn" class="hide">Deshacer</button></div>
 
 <script>
@@ -429,7 +451,7 @@ function joinBroken(L){
     if(r.length){
       var prev=r[r.length-1], pt=prev.trim(), ct=cur.trim();
       if(pt && ct && pt.length>=35 && !/[.!?:;"”»)\]]$/.test(pt) && /^[a-zà-ÿ]/.test(ct) &&
-         !listItem(cur) && !/^( {4,}|\t)/.test(cur) && prev.indexOf('\t')<0 && cur.indexOf('\t')<0 && !/^(```|~~~|\|)/.test(pt)){
+         !listItem(cur) && !/^( {4,}|\t)/.test(cur) && prev.indexOf('\t')<0 && cur.indexOf('\t')<0 && !/^(```|~~~|\||#)/.test(pt)){
         if(/[A-Za-zÀ-ÿ]-$/.test(pt)) r[r.length-1]=prev.replace(/-\s*$/,'')+ct;
         else r[r.length-1]=prev.replace(/\s+$/,'')+' '+ct;
         continue;
@@ -490,6 +512,7 @@ function splitRow(line){
   return null;
 }
 function tryTable(L,i,o){
+  if(listItem(L[i].replace(/\t/g,' '))) return null;
   var a=splitRow(L[i]); if(!a) return null;
   var rows=[a.cells], j=i+1, w=a.cells.length;
   while(j<L.length && L[j].trim()){
@@ -524,6 +547,19 @@ function tryCode(L,i){
   return {md:'```\n'+out.join('\n')+'\n```',end:j};
 }
 
+/* Texto del usuario + bloques importados (<!-- archivo: … --> … <!-- /archivo -->) */
+function composeMd(s,o){
+  s=String(s||'').replace(/\r\n?/g,'\n');
+  var re=/^<!-- archivo: (.*?) -->[ \t]*\n([\s\S]*?)\n?<!-- \/archivo -->[ \t]*$/gm, out=[], last=0, m;
+  function plain(t){ if(!t.trim()) return; var o2={}; for(var k in o) o2[k]=o[k]; if(out.length) o2.title=false; out.push(textToMd(t,o2).trim()); }
+  while((m=re.exec(s))){
+    plain(s.slice(last,m.index));
+    if(m[2].trim()) out.push(m[2].replace(/^\n+|\s+$/g,''));
+    last=re.lastIndex;
+  }
+  plain(s.slice(last));
+  return out.length?out.join('\n\n')+'\n':'';
+}
 function textToMd(src,o){
   var t=normalize(src);
   if(!t.trim()) return '';
@@ -832,7 +868,7 @@ function renderMd(md){ return blocksHtml(md.replace(/\r\n?/g,'\n').split('\n'));
 var src=$('src'), mdEl=$('md'), prev=$('preview'), fnameEl=$('fname'), main=$('main');
 var OPT_KEYS=['title','heads','lists','tables','links','join','breaks','clean'];
 var opts={title:true,heads:true,lists:true,tables:true,links:true,join:true,breaks:true,clean:true};
-var richHtml=null, richPlain='', mdManual=false;
+var richHtml=null, richPlain='', mdManual=false, srcIsMd=false, importLabel='';
 var convT=null, prevT=null, saveT=null;
 
 try{ var so=JSON.parse(lsGet('opts','{}')); for(var k in so){ if(opts.hasOwnProperty(k)) opts[k]=!!so[k]; } }catch(e){}
@@ -841,13 +877,18 @@ function paintOpts(){
   var bs=$('opts').querySelectorAll('.chip');
   for(var i=0;i<bs.length;i++) bs[i].className='chip'+(opts[bs[i].getAttribute('data-o')]?' on':'');
 }
-function paintRich(){ $('rich').className='rich'+(richHtml?'':' hide'); }
+function paintRich(){
+  $('rich').className='rich'+(richHtml||srcIsMd?'':' hide');
+  $('richLbl').textContent=srcIsMd?('Importado'+(importLabel?' desde '+importLabel:'')):'Formato enriquecido detectado';
+  $('bPlain').textContent=srcIsMd?'Reprocesar como texto':'Usar texto plano';
+}
 function paintBadge(){ $('badge').className='badge'+(mdManual?'':' hide'); }
 
 function convert(){
   var md='';
-  if(richHtml) md=htmlToMd(richHtml)||'';
-  if(!md) md=textToMd(src.value,opts);
+  if(srcIsMd) md=src.value.replace(/\s+$/,'')+(src.value.trim()?'\n':'');
+  else if(richHtml) md=htmlToMd(richHtml)||'';
+  if(!md && !srcIsMd) md=composeMd(src.value,opts);
   mdEl.value=md; mdManual=false; paintBadge();
   afterMd();
 }
@@ -870,7 +911,7 @@ function scheduleSave(){
   saveT=setTimeout(function(){
     lsSet('src',src.value); lsSet('md',mdEl.value); lsSet('manual',mdManual?'1':'0');
     lsSet('rich',richHtml&&richHtml.length<800000?richHtml:''); lsSet('richPlain',richHtml?richPlain:'');
-    lsSet('fname',fnameEl.value);
+    lsSet('fname',fnameEl.value); lsSet('isMd',srcIsMd?'1':'0'); lsSet('lbl',importLabel);
   },400);
 }
 
@@ -904,26 +945,28 @@ function isNarrow(){ return window.innerWidth<1100; }
 
 /* ---- entrada ---- */
 function setSource(text,html,goMd){
-  src.value=text||'';
+  src.value=text||''; srcIsMd=false;
   if(html && richUseful(html)){ richHtml=html; richPlain=src.value; } else { richHtml=null; richPlain=''; }
   paintRich(); convert();
   if(goMd && isNarrow() && src.value.trim()) setView('md');
 }
 src.addEventListener('input',function(){
   if(richHtml && src.value!==richPlain){ richHtml=null; paintRich(); }
+  if(srcIsMd && !src.value.trim()){ srcIsMd=false; paintRich(); }
   scheduleConvert();
 });
 src.addEventListener('paste',function(e){
   var cd=e.clipboardData; if(!cd) return;
   var html=cd.getData('text/html'), text=cd.getData('text/plain');
   var all=src.selectionStart===0 && src.selectionEnd===src.value.length;
+  if(srcIsMd && (all || !src.value.trim())){ srcIsMd=false; paintRich(); }
   if(html && richUseful(html) && (all || !src.value.trim())){
     e.preventDefault();
     if(!text){ var d=document.createElement('div'); d.innerHTML=html; text=d.textContent; }
     setSource(text,html,false);
   }
 });
-tap($('bPlain'),function(){ richHtml=null; richPlain=''; paintRich(); convert(); toast('Usando texto plano'); });
+tap($('bPlain'),function(){ var wasMd=srcIsMd; richHtml=null; richPlain=''; srcIsMd=false; paintRich(); convert(); toast(wasMd?'Reprocesado como texto':'Usando texto plano'); });
 
 mdEl.addEventListener('input',function(){ mdManual=true; paintBadge(); afterMd(); });
 fnameEl.addEventListener('input',scheduleSave);
@@ -965,61 +1008,926 @@ function pastePlain(){
 }
 tap($('bPaste'),doPaste);
 
-/* ---- abrir archivo ---- */
-function loadFile(name,text){
-  var ext=(name.split('.').pop()||'').toLowerCase();
-  if(ext==='html'||ext==='htm'){
-    var d=document.createElement('div');
-    try{ d.innerHTML=new DOMParser().parseFromString(text,'text/html').body.innerHTML; }catch(e){ d.innerHTML=''; }
-    richHtml=text; richPlain=d.textContent; src.value=richPlain; paintRich(); convert();
-  } else if(ext==='md'||ext==='markdown'){
-    src.value=text; richHtml=null; paintRich(); mdEl.value=text; mdManual=false; paintBadge(); afterMd();
-  } else {
-    setSource(text,'',false);
+/* =====================================================================
+   IMPORTAR ARCHIVOS (PDF, Word, Excel, PowerPoint, OpenDocument, EPUB,
+   RTF, correo, imágenes con OCR, audio y video con transcripción, código…)
+   ===================================================================== */
+var CDN_TESS='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+var CDN_TF='https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
+var KIND={}, KIND_LABEL={pdf:'PDF',docx:'Word',doc:'Word',odt:'OpenDocument',odp:'presentación',pptx:'PowerPoint',
+  sheet:'planilla',csv:'CSV',epub:'EPUB',rtf:'RTF',eml:'correo',ipynb:'notebook',sub:'subtítulos',json:'JSON',
+  code:'código',html:'HTML',md:'Markdown',text:'texto',image:'imagen (OCR)',audio:'audio',video:'video'};
+(function(){
+  var G={
+    text:'txt text log nfo me tex rst adoc asciidoc org wiki textile',
+    md:'md markdown mdown mkd mdx',
+    html:'html htm xhtml shtml',
+    csv:'csv tsv tab psv',
+    sheet:'xlsx xlsm xlsb xls xlt xltx ods fods numbers et dif slk sylk prn dbf wk1 wk3 qpw',
+    docx:'docx docm dotx dotm',
+    doc:'doc dot wps',
+    odt:'odt ott fodt',
+    odp:'odp otp',
+    pptx:'pptx pptm ppsx potx',
+    epub:'epub',
+    rtf:'rtf',
+    pdf:'pdf',
+    eml:'eml emlx mht mhtml',
+    ipynb:'ipynb',
+    sub:'srt vtt sbv',
+    json:'json geojson jsonl ndjson har webmanifest',
+    code:'js mjs cjs ts tsx jsx py rb php java kt kts swift c h cpp hpp cc cs go rs sh bash zsh fish ps1 bat cmd sql r m mm scala lua pl dart css scss sass less yaml yml toml ini cfg conf xml svg plist gs vb vbs gradle properties dockerfile makefile graphql proto vue svelte',
+    image:'png jpg jpeg jpe jfif heic heif webp gif bmp tif tiff avif',
+    audio:'mp3 m4a aac wav wave aif aiff aifc caf flac ogg oga opus weba amr',
+    video:'mp4 m4v mov webm mkv 3gp 3g2'
+  };
+  for(var k in G){ var a=G[k].split(' '); for(var i=0;i<a.length;i++) KIND[a[i]]=k; }
+}());
+var CODE_LANG={js:'javascript',mjs:'javascript',cjs:'javascript',gs:'javascript',ts:'typescript',tsx:'tsx',jsx:'jsx',py:'python',rb:'ruby',
+  kt:'kotlin',kts:'kotlin',cs:'csharp',rs:'rust',sh:'bash',zsh:'bash',ps1:'powershell',bat:'bat',cmd:'bat',yml:'yaml',m:'objectivec',
+  mm:'objectivec',h:'c',hpp:'cpp',cc:'cpp',pl:'perl',vb:'vbnet',vbs:'vbnet',svg:'xml',plist:'xml',conf:'ini',cfg:'ini',properties:'ini'};
+/* Formatos que el Mac convierte con sus motores nativos (PDFKit, Vision, Speech, Cocoa) */
+var NATIVE_EXT={pdf:1,doc:1,dot:1,rtf:1,odt:1,webarchive:1,wordml:1,png:1,jpg:1,jpeg:1,jpe:1,jfif:1,heic:1,heif:1,webp:1,gif:1,
+  bmp:1,tif:1,tiff:1,avif:1,mp3:1,m4a:1,aac:1,wav:1,wave:1,aif:1,aiff:1,aifc:1,caf:1,flac:1,amr:1,mp4:1,m4v:1,mov:1,'3gp':1,'3g2':1};
+
+function extOf(name){ var m=/\.([^.\/\\]+)$/.exec(name||''); return m?m[1].toLowerCase():''; }
+function baseName(name){ return String(name||'documento').replace(/^.*[\/\\]/,'').replace(/\.[^.]+$/,''); }
+function kindOf(file){
+  var e=extOf(file.name), t=file.type||'';
+  if(KIND[e]) return KIND[e];
+  if(/^image\//.test(t)) return 'image';
+  if(/^audio\//.test(t)) return 'audio';
+  if(/^video\//.test(t)) return 'video';
+  if(/pdf/.test(t)) return 'pdf';
+  if(/^text\/html/.test(t)) return 'html';
+  return 'text';
+}
+
+/* ---- indicador de progreso ---- */
+function busy(msg,pct){
+  var b=$('busy');
+  if(msg===null){ b.className='busy hide'; return; }
+  b.className='busy';
+  $('busyMsg').textContent=msg;
+  var bar=$('busyBar').parentNode;
+  if(pct===undefined || pct<0){ bar.className='bbar ind'; $('busyBar').style.width=''; }
+  else { bar.className='bbar'; $('busyBar').style.width=Math.max(2,Math.min(100,pct))+'%'; }
+}
+
+/* ---- utilidades de lectura ---- */
+var libP={};
+function loadScript(srcUrl){
+  if(libP[srcUrl]) return libP[srcUrl];
+  libP[srcUrl]=new Promise(function(res,rej){
+    var s=document.createElement('script'); s.src=srcUrl; s.async=true;
+    s.onload=function(){ res(); };
+    s.onerror=function(){ delete libP[srcUrl]; rej(new Error('No se pudo cargar un componente. Revisa la conexión a internet.')); };
+    document.head.appendChild(s);
+  });
+  return libP[srcUrl];
+}
+function readAs(file,how){
+  return new Promise(function(res,rej){
+    var r=new FileReader();
+    r.onload=function(){ res(r.result); };
+    r.onerror=function(){ rej(new Error('No se pudo leer el archivo')); };
+    if(how==='buf') r.readAsArrayBuffer(file); else if(how==='url') r.readAsDataURL(file); else r.readAsText(file);
+  });
+}
+function decodeBytes(u,charset){
+  if(u.length>1 && u[0]===0xFF && u[1]===0xFE) return new TextDecoder('utf-16le').decode(u.subarray(2));
+  if(u.length>1 && u[0]===0xFE && u[1]===0xFF) return new TextDecoder('utf-16be').decode(u.subarray(2));
+  if(charset){ try{ return new TextDecoder(charset).decode(u); }catch(e){} }
+  try{ return new TextDecoder('utf-8',{fatal:true}).decode(u); }catch(e){ return new TextDecoder('windows-1252').decode(u); }
+}
+function readText(file){ return readAs(file,'buf').then(function(b){ return decodeBytes(new Uint8Array(b)); }); }
+function looksBinary(u){
+  var n=Math.min(u.length,4096), z=0; for(var i=0;i<n;i++){ if(u[i]===0) z++; }
+  return z>n*0.01;
+}
+function xmlDoc(s){ return new DOMParser().parseFromString(s,'application/xml'); }
+function tags(node,name){ return node?node.getElementsByTagName(name):[]; }
+function each(list,fn){ for(var i=0;i<list.length;i++) fn(list[i],i); }
+function fence(lang,body){ return '```'+(lang||'')+'\n'+String(body).replace(/\s+$/,'')+'\n```'; }
+function cellMd(v){ return String(v===null||v===undefined?'':v).replace(/\|/g,'\\|').replace(/\r?\n/g,'<br>').replace(/\s+/g,' ').trim(); }
+function rowsToMd(rows){
+  rows=rows.filter(function(r){ return r && r.join('').trim(); });
+  if(!rows.length) return '';
+  var w=0, c, r, used=[];
+  for(r=0;r<rows.length;r++){ if(rows[r].length>w) w=rows[r].length; }
+  for(c=0;c<w;c++){ used[c]=false; for(r=0;r<rows.length;r++){ if(String(rows[r][c]===undefined?'':rows[r][c]).trim()){ used[c]=true; break; } } }
+  var out=[];
+  for(r=0;r<rows.length;r++){
+    var cells=[]; for(c=0;c<w;c++){ if(used[c]) cells.push(cellMd(rows[r][c])); }
+    if(cells.length===1){ out.push(cells[0]); continue; }
+    out.push('| '+cells.join(' | ')+' |');
+    if(r===0) out.push('|'+rep(' --- |',cells.length));
   }
-  fnameEl.value=name.replace(/\.[^.]+$/,''); scheduleSave();
+  return out.join('\n');
+}
+function parseCsv(t,d){
+  var rows=[], row=[], f='', q=false, i, c;
+  for(i=0;i<t.length;i++){
+    c=t.charAt(i);
+    if(q){ if(c==='"'){ if(t.charAt(i+1)==='"'){ f+='"'; i++; } else q=false; } else f+=c; }
+    else if(c==='"' && f==='') q=true;
+    else if(c===d){ row.push(f); f=''; }
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&t.charAt(i+1)==='\n') i++; row.push(f); rows.push(row); row=[]; f=''; }
+    else f+=c;
+  }
+  if(f||row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+function guessDelim(t){
+  var line=t.split(/\r?\n/)[0]||'', best=',', bn=0, ds=[',',';','\t','|'];
+  for(var i=0;i<ds.length;i++){ var n=line.split(ds[i]).length-1; if(n>bn){ bn=n; best=ds[i]; } }
+  return best;
+}
+
+/* ---- PDF (pdf.js) ---- */
+function pdfImport(file){
+  return loadScript('lib/pdf.min.js').then(function(){
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc='lib/pdf.worker.min.js';
+    return readAs(file,'buf');
+  }).then(function(buf){
+    return window.pdfjsLib.getDocument({data:new Uint8Array(buf),isEvalSupported:false}).promise;
+  }).then(function(pdf){
+    var n=pdf.numPages, pages=[], i=0, chars=0;
+    function next(){
+      i++; if(i>n) return Promise.resolve();
+      busy('Leyendo PDF · página '+i+' de '+n,i/n*100);
+      return pdf.getPage(i).then(function(pg){ return pg.getTextContent(); }).then(function(tc){
+        var ls=pdfLines(tc.items); for(var k=0;k<ls.length;k++) chars+=ls[k].t.length; pages.push(ls);
+      }).then(next);
+    }
+    return next().then(function(){
+      if(chars<n*25) return pdfOcr(pdf);
+      return {text:pdfToText(pages)};
+    });
+  });
+}
+function pdfLines(items){
+  var lines=[], cur=null;
+  for(var i=0;i<items.length;i++){
+    var it=items[i]; if(typeof it.str!=='string') continue;
+    var tr=it.transform||[1,0,0,1,0,0], x=tr[4], y=tr[5], h=Math.abs(tr[3])||it.height||10;
+    if(!it.str.trim()){ if(cur && it.hasEOL){ lines.push(cur); cur=null; } continue; }
+    if(cur && Math.abs(y-cur.y)>h*0.45){ lines.push(cur); cur=null; }
+    if(!cur){ cur={t:it.str,y:y,h:h,end:x+(it.width||0)}; }
+    else {
+      var gap=x-cur.end;
+      if(gap>h*0.18 && !/\s$/.test(cur.t) && !/^\s/.test(it.str)) cur.t+=(gap>h*2.5?'\t':' ');
+      cur.t+=it.str; cur.end=x+(it.width||0); if(h>cur.h) cur.h=h;
+    }
+    if(it.hasEOL){ lines.push(cur); cur=null; }
+  }
+  if(cur) lines.push(cur);
+  for(var j=0;j<lines.length;j++) lines[j].t=lines[j].t.replace(/[ ]{2,}/g,' ').trim();
+  return lines.filter(function(l){ return l.t; });
+}
+function weightedMedian(lines,key){
+  var arr=[], tot=0, i;
+  for(i=0;i<lines.length;i++){ arr.push([lines[i][key],lines[i].t.length]); tot+=lines[i].t.length; }
+  arr.sort(function(a,b){ return a[0]-b[0]; });
+  var acc=0; for(i=0;i<arr.length;i++){ acc+=arr[i][1]; if(acc>=tot/2) return arr[i][0]; }
+  return 10;
+}
+function pdfToText(pages){
+  var all=[]; each(pages,function(p){ all=all.concat(p); });
+  var body=weightedMedian(all,'h')||10, out=[];
+  var PAGE_NO=/^(p[aá]g(ina)?\.?\s*)?\d{1,4}(\s*(de|\/|of)\s*\d{1,4})?$/i;
+  each(pages,function(ls){
+    var gaps=[];
+    for(var i=1;i<ls.length;i++){ var g=ls[i-1].y-ls[i].y; if(g>0) gaps.push(g); }
+    gaps.sort(function(a,b){ return a-b; });
+    var lead=gaps.length?gaps[Math.floor(gaps.length/2)]:body*1.2, prevHead='';
+    for(var j=0;j<ls.length;j++){
+      var l=ls[j];
+      if(PAGE_NO.test(l.t)) continue;
+      var lvl=(l.t.length<110 && l.h>=body*1.45)?2:((l.t.length<110 && l.h>=body*1.18)?3:0);
+      var g2=j?ls[j-1].y-l.y:0;
+      if(j && (g2>lead*1.45 || g2<0)) out.push('');
+      if(lvl){
+        var mk=rep('#',lvl)+' ';
+        if(prevHead===mk && out.length && out[out.length-1].indexOf(mk)===0) out[out.length-1]+=' '+l.t;
+        else { if(out.length && out[out.length-1]!=='') out.push(''); out.push(mk+l.t); }
+        prevHead=mk; continue;
+      }
+      if(prevHead){ out.push(''); prevHead=''; }
+      out.push(l.t);
+    }
+    out.push('');
+  });
+  return out.join('\n').replace(/\n{3,}/g,'\n\n');
+}
+function pdfOcr(pdf){
+  var n=Math.min(pdf.numPages,40), i=0, texts=[];
+  function next(){
+    i++; if(i>n) return Promise.resolve();
+    busy('PDF escaneado · preparando página '+i+' de '+n,(i-1)/n*100);
+    return pdf.getPage(i).then(function(pg){
+      var vp=pg.getViewport({scale:2}), cv=document.createElement('canvas');
+      cv.width=vp.width; cv.height=vp.height;
+      return pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise.then(function(){
+        return ocrCanvas(cv,'Página '+i+' de '+n);
+      });
+    }).then(function(t){ texts.push(t); }).then(next);
+  }
+  return next().then(function(){
+    if(pdf.numPages>n) texts.push('_(Se reconocieron las primeras '+n+' páginas de '+pdf.numPages+'.)_');
+    return {text:texts.join('\n\n')};
+  });
+}
+
+/* ---- OCR de imágenes (Tesseract, se descarga la primera vez) ---- */
+var ocrP=null, ocrStage='';
+function getOcr(){
+  if(ocrP) return ocrP;
+  ocrP=loadScript(CDN_TESS).then(function(){
+    busy('Preparando reconocimiento de texto (la primera vez descarga unos 15 MB)…');
+    return window.Tesseract.createWorker(['spa','eng'],1,{logger:function(m){
+      var p=Math.round((m.progress||0)*100);
+      if(m.status==='recognizing text') busy('Reconociendo texto'+(ocrStage?' · '+ocrStage:'')+' · '+p+'%',p);
+      else if(/load|download|initiali/.test(m.status||'')) busy('Preparando OCR · '+p+'%',p);
+    }});
+  });
+  ocrP.catch(function(){ ocrP=null; });
+  return ocrP;
+}
+function ocrCanvas(cv,stage){
+  return getOcr().then(function(w){ ocrStage=stage||''; return w.recognize(cv); }).then(function(r){ return (r.data&&r.data.text)||''; });
+}
+function imageToCanvas(file){
+  return new Promise(function(res,rej){
+    var url=URL.createObjectURL(file), img=new Image();
+    img.onload=function(){
+      var w=img.naturalWidth, h=img.naturalHeight, k=1;
+      if(Math.max(w,h)>3200) k=3200/Math.max(w,h); else if(Math.max(w,h)<1000) k=2;
+      var cv=document.createElement('canvas'); cv.width=Math.round(w*k); cv.height=Math.round(h*k);
+      var cx=cv.getContext('2d'); cx.fillStyle='#FFFFFF'; cx.fillRect(0,0,cv.width,cv.height); cx.drawImage(img,0,0,cv.width,cv.height);
+      URL.revokeObjectURL(url); res(cv);
+    };
+    img.onerror=function(){ URL.revokeObjectURL(url); rej(new Error('Este navegador no puede abrir esa imagen')); };
+    img.src=url;
+  });
+}
+function imageImport(file){
+  return imageToCanvas(file).then(function(cv){ return ocrCanvas(cv,''); }).then(function(t){
+    if(!t.trim()) throw new Error('No se encontró texto en la imagen');
+    return {text:t};
+  });
+}
+
+/* ---- Audio y video (Whisper en el dispositivo, se descarga la primera vez) ---- */
+var asrP=null;
+function getAsr(){
+  if(asrP) return asrP;
+  var files={};
+  asrP=import(CDN_TF).then(function(T){
+    T.env.allowLocalModels=false;
+    busy('Preparando transcripción…');
+    return T.pipeline('automatic-speech-recognition','onnx-community/whisper-base',{dtype:'q8',device:'wasm',
+      progress_callback:function(p){
+        if(p && p.status==='progress' && p.total){
+          files[p.file]=[p.loaded,p.total]; var a=0,b=0; for(var k in files){ a+=files[k][0]; b+=files[k][1]; }
+          busy('Descargando modelo de voz (solo la primera vez) · '+Math.round(a/b*100)+'% de '+Math.round(b/1048576)+' MB',a/b*100);
+        }
+      }});
+  });
+  asrP.catch(function(){ asrP=null; });
+  return asrP;
+}
+function decodeAudio16k(file){
+  return readAs(file,'buf').then(function(buf){
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) throw new Error('Este navegador no permite decodificar audio');
+    var ac=new AC();
+    return new Promise(function(res,rej){
+      ac.decodeAudioData(buf,function(ab){ try{ ac.close(); }catch(e){} res(ab); },
+        function(){ try{ ac.close(); }catch(e){} rej(new Error('No se pudo leer el audio de este archivo (formato no compatible)')); });
+    });
+  }).then(function(ab){
+    var sr=ab.sampleRate, len=Math.floor(ab.duration*16000), out=new Float32Array(len), chs=ab.numberOfChannels, data=[], c, i;
+    for(c=0;c<chs;c++) data.push(ab.getChannelData(c));
+    var ratio=sr/16000;
+    for(i=0;i<len;i++){
+      var pos=i*ratio, i0=Math.floor(pos), f=pos-i0, v=0;
+      for(c=0;c<chs;c++){ var d=data[c], a=d[i0]||0, b=d[i0+1]===undefined?a:d[i0+1]; v+=a+(b-a)*f; }
+      out[i]=v/chs;
+    }
+    return {pcm:out,duration:ab.duration};
+  });
+}
+function mmss(s){ s=Math.max(0,Math.round(s)); var h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+(m<10?'0':''):'')+m+':'+(x<10?'0':'')+x; }
+function audioImport(file){
+  var audio;
+  busy('Decodificando audio…');
+  return decodeAudio16k(file).then(function(a){
+    audio=a;
+    if(a.duration>45*60) toast('Audio largo: la transcripción puede tardar bastante');
+    return getAsr();
+  }).then(function(asr){
+    busy('Transcribiendo '+mmss(audio.duration)+' de audio… (puede tardar unos minutos)');
+    return asr(audio.pcm,{language:'spanish',task:'transcribe',chunk_length_s:30,stride_length_s:5,return_timestamps:true});
+  }).then(function(r){
+    var ch=(r && r.chunks)||[], paras=[], cur=null, lastEnd=0;
+    for(var i=0;i<ch.length;i++){
+      var t=(ch[i].text||'').trim(), ts=ch[i].timestamp||[0,0]; if(!t) continue;
+      var st=ts[0]||0;
+      if(!cur || st-lastEnd>1.5 || cur.t.length>650){ cur={s:st,t:t}; paras.push(cur); } else cur.t+=' '+t;
+      lastEnd=ts[1]||st;
+    }
+    if(!paras.length && r && r.text) paras.push({s:0,t:r.text.trim()});
+    if(!paras.length) throw new Error('No se reconoció voz en el archivo');
+    var md='# Transcripción: '+baseName(file.name)+'\n\n> Duración: '+mmss(audio.duration)+' · Transcrito en el dispositivo\n\n'+
+      paras.map(function(p){ return '**['+mmss(p.s)+']** '+p.t; }).join('\n\n')+'\n';
+    return {md:md};
+  });
+}
+
+/* ---- Word .docx (mammoth) ---- */
+function docxImport(file){
+  return loadScript('lib/mammoth.browser.min.js').then(function(){ return readAs(file,'buf'); }).then(function(buf){
+    return window.mammoth.convertToHtml({arrayBuffer:buf},{styleMap:['p[style-name=\'Title\'] => h1:fresh','p[style-name=\'Título\'] => h1:fresh','p[style-name=\'Subtitle\'] => h2:fresh']});
+  }).then(function(r){ return {html:r.value}; });
+}
+
+/* ---- Word .doc antiguo (extracción aproximada en el navegador) ---- */
+function docImport(file){
+  return readAs(file,'buf').then(function(buf){
+    var u=new Uint8Array(buf), runs16=[], runs8=[], cur='', i, c;
+    function ok16(c){ return (c>=32&&c<0x250)||(c>=0x2010&&c<=0x2044)||c===0x20AC||c===13||c===9||c===11; }
+    for(i=0;i+1<u.length;i+=2){ c=u[i]|(u[i+1]<<8); if(ok16(c)) cur+=String.fromCharCode(c===11?10:c); else { if(cur.length>=8) runs16.push(cur); cur=''; } }
+    if(cur.length>=8) runs16.push(cur); cur='';
+    var dec=new TextDecoder('windows-1252');
+    for(i=0;i<u.length;i++){ c=u[i]; if((c>=32&&c<127)||c>=160||c===13||c===9){ cur+=dec.decode(u.subarray(i,i+1)); } else { if(cur.length>=8) runs8.push(cur); cur=''; } }
+    if(cur.length>=8) runs8.push(cur);
+    var JUNK=/^(Root Entry|WordDocument|[01]Table|Data|ObjectPool|CompObj|SummaryInformation|DocumentSummaryInformation|Default Paragraph Font|Table Normal|No List|Normal|Normal Table|Microsoft (Office )?Word.*|Word\.Document.*|MSWordDoc|Times New Roman|Arial|Calibri|Cambria|Symbol|Courier New|Helvetica.*|Body Text|Heading \d|Title|Subtitle|Hyperlink|Strong|Emphasis|List Paragraph)$/i;
+    function good(rs){ return rs.filter(function(r){ if(JUNK.test(r.trim())) return false; var l=(r.match(/[A-Za-zÀ-ÿ ]/g)||[]).length; return l/r.length>0.75 && /[a-záéíóúñ]{3}/i.test(r); }); }
+    var a=good(runs16), b=good(runs8), la=a.join('').length, lb=b.join('').length;
+    var t=(la>=lb?a:b).join('\n').replace(/\r/g,'\n');
+    if(!t.trim()) throw new Error('No se pudo extraer texto de este .doc. Guárdalo como .docx o PDF.');
+    toast('Documento .doc antiguo: texto extraído de forma aproximada');
+    return {text:t};
+  });
+}
+
+/* ---- Planillas (SheetJS) ---- */
+function sheetImport(file){
+  return loadScript('lib/xlsx.full.min.js').then(function(){ return readAs(file,'buf'); }).then(function(buf){
+    var X=window.XLSX, wb=X.read(new Uint8Array(buf),{type:'array',cellDates:true,dense:true});
+    var parts=['# '+baseName(file.name)];
+    each(wb.SheetNames,function(n){
+      var rows=X.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:false,blankrows:false,defval:''});
+      var t=rowsToMd(rows);
+      if(t){ if(wb.SheetNames.length>1) parts.push('## '+n); parts.push(t); }
+    });
+    return {md:parts.join('\n\n')+'\n'};
+  });
+}
+
+/* ---- ZIP (PowerPoint, OpenDocument, EPUB) ---- */
+function zipLoad(file){
+  return loadScript('lib/jszip.min.js').then(function(){ return readAs(file,'buf'); }).then(function(b){ return window.JSZip.loadAsync(b); });
+}
+function zipText(z,path){ var f=z.file(path); return f?f.async('string'):Promise.resolve(''); }
+
+function pptxImport(file){
+  return zipLoad(file).then(function(z){
+    var names=Object.keys(z.files).filter(function(n){ return /^ppt\/slides\/slide\d+\.xml$/.test(n); })
+      .sort(function(a,b){ return parseInt(a.replace(/\D/g,''),10)-parseInt(b.replace(/\D/g,''),10); });
+    return Promise.all(names.map(function(n){ return zipText(z,n); }));
+  }).then(function(xs){
+    var out=['# '+baseName(file.name)];
+    each(xs,function(s,idx){
+      var d=xmlDoc(s), title='', blocks=[], bullets=[];
+      function flush(){ if(bullets.length){ blocks.push(bullets.join('\n')); bullets=[]; } }
+      each(tags(d,'p:sp'),function(sp){
+        var ph=tags(sp,'p:ph')[0], type=ph?(ph.getAttribute('type')||''):'', lines=[];
+        each(tags(sp,'a:p'),function(p){
+          var t=''; each(tags(p,'a:t'),function(x){ t+=x.textContent; });
+          var pr=tags(p,'a:pPr')[0], lvl=pr?parseInt(pr.getAttribute('lvl')||'0',10):0;
+          if(t.trim()) lines.push({t:t.trim(),l:lvl});
+        });
+        if(!lines.length) return;
+        if(/title/i.test(type) && !/sub/i.test(type) && !title){ title=lines.map(function(l){ return l.t; }).join(' '); return; }
+        if(/subTitle/i.test(type) || lines.length===1){ flush(); blocks.push(lines.map(function(l){ return l.t; }).join('  \n')); return; }
+        each(lines,function(l){ bullets.push(rep('    ',l.l)+'- '+l.t); });
+      });
+      flush();
+      each(tags(d,'a:tbl'),function(tb){
+        var rows=[]; each(tags(tb,'a:tr'),function(tr){ var r=[]; each(tags(tr,'a:tc'),function(tc){ var t=''; each(tags(tc,'a:t'),function(x){ t+=x.textContent+' '; }); r.push(t.trim()); }); rows.push(r); });
+        var m=rowsToMd(rows); if(m) blocks.push(m);
+      });
+      out.push('## '+(idx+1)+'. '+(title||'Diapositiva '+(idx+1)));
+      if(blocks.length) out.push(blocks.join('\n\n'));
+    });
+    return {md:out.join('\n\n')+'\n'};
+  });
+}
+
+function odfStyles(docs){
+  var map={};
+  each(docs,function(d){
+    each(tags(d,'style:style'),function(st){
+      var name=st.getAttribute('style:name'), tp=tags(st,'style:text-properties')[0];
+      map[name]={parent:st.getAttribute('style:parent-style-name')||'',
+        b:!!(tp && /bold|[6-9]00/.test(tp.getAttribute('fo:font-weight')||'')),
+        i:!!(tp && /italic/.test(tp.getAttribute('fo:font-style')||''))};
+    });
+  });
+  return map;
+}
+function odfToHtml(root,styles){
+  function sty(n){ return styles[n]||{}; }
+  function headingOf(n){ var guard=0; while(n && guard++<8){ var m=/^(Heading|Encabezado|T[ií]tulo)(_20_)?(\d)?/i.exec(n); if(m) return m[3]?+m[3]:1; if(/^Title$/i.test(n)) return 1; n=sty(n).parent; } return 0; }
+  function walk(node){
+    var h='';
+    for(var k=node.firstChild;k;k=k.nextSibling){
+      if(k.nodeType===3){ h+=esc(k.nodeValue); continue; }
+      if(k.nodeType!==1) continue;
+      var tag=k.nodeName, sn=k.getAttribute('text:style-name')||k.getAttribute('table:style-name')||'';
+      switch(tag){
+        case 'text:h': var lv=parseInt(k.getAttribute('text:outline-level')||'1',10)||1; h+='<h'+Math.min(lv,6)+'>'+walk(k)+'</h'+Math.min(lv,6)+'>'; break;
+        case 'text:p': var hl=headingOf(sn); h+=hl?'<h'+hl+'>'+walk(k)+'</h'+hl+'>':'<p>'+walk(k)+'</p>'; break;
+        case 'text:span': var s=sty(sn), inner=walk(k); if(s.i) inner='<i>'+inner+'</i>'; if(s.b) inner='<b>'+inner+'</b>'; h+=inner; break;
+        case 'text:a': h+='<a href="'+esc(k.getAttribute('xlink:href')||'')+'">'+walk(k)+'</a>'; break;
+        case 'text:list': h+='<ul>'+walk(k)+'</ul>'; break;
+        case 'text:list-item': case 'text:list-header': h+='<li>'+walk(k)+'</li>'; break;
+        case 'table:table': h+='<table>'+walk(k)+'</table>'; break;
+        case 'table:table-row': h+='<tr>'+walk(k)+'</tr>'; break;
+        case 'table:table-cell': h+='<td>'+walk(k)+'</td>'; break;
+        case 'text:s': h+=rep(' ',parseInt(k.getAttribute('text:c')||'1',10)); break;
+        case 'text:tab': h+=' '; break;
+        case 'text:line-break': h+='<br>'; break;
+        case 'text:note': case 'office:annotation': case 'text:tracked-changes': case 'draw:image': case 'svg:desc': case 'svg:title': break;
+        default: h+=walk(k);
+      }
+    }
+    return h;
+  }
+  return walk(root);
+}
+function odtImport(file){
+  return zipLoad(file).then(function(z){ return Promise.all([zipText(z,'content.xml'),zipText(z,'styles.xml')]); }).then(function(r){
+    var c=xmlDoc(r[0]), s=xmlDoc(r[1]||'<x/>'), body=tags(c,'office:text')[0]||tags(c,'office:body')[0];
+    if(!body) throw new Error('El documento no tiene contenido legible');
+    return {html:odfToHtml(body,odfStyles([s,c]))};
+  });
+}
+function odpImport(file){
+  return zipLoad(file).then(function(z){ return Promise.all([zipText(z,'content.xml'),zipText(z,'styles.xml')]); }).then(function(r){
+    var c=xmlDoc(r[0]), styles=odfStyles([xmlDoc(r[1]||'<x/>'),c]), out=['# '+baseName(file.name)];
+    each(tags(c,'draw:page'),function(pg,idx){
+      var title='', rest='';
+      each(tags(pg,'draw:frame'),function(fr){
+        var cls=fr.getAttribute('presentation:class')||'';
+        if(cls==='title' && !title){ title=fr.textContent.replace(/\s+/g,' ').trim(); return; }
+        if(cls==='notes') return;
+        rest+=odfToHtml(fr,styles);
+      });
+      out.push('## '+(idx+1)+'. '+(title||pg.getAttribute('draw:name')||'Diapositiva '+(idx+1)));
+      var m=rest?htmlToMd(rest):''; if(m) out.push(m.trim());
+    });
+    return {md:out.join('\n\n')+'\n'};
+  });
+}
+function joinPath(dir,href){
+  var parts=(dir?dir+'/':'').concat(decodeURIComponent(href.split('#')[0])).split('/'), out=[];
+  each(parts,function(p){ if(p==='..') out.pop(); else if(p && p!=='.') out.push(p); });
+  return out.join('/');
+}
+function epubImport(file){
+  var z;
+  return zipLoad(file).then(function(zz){ z=zz; return zipText(z,'META-INF/container.xml'); }).then(function(cx){
+    var rf=tags(xmlDoc(cx),'rootfile')[0], opfPath=rf?rf.getAttribute('full-path'):'';
+    if(!opfPath) throw new Error('EPUB sin índice de contenido');
+    return zipText(z,opfPath).then(function(opf){
+      var d=xmlDoc(opf), dir=opfPath.indexOf('/')>=0?opfPath.replace(/\/[^\/]*$/,''):'', man={};
+      each(tags(d,'item'),function(it){ man[it.getAttribute('id')]=it.getAttribute('href'); });
+      var t=tags(d,'dc:title')[0], title=t?t.textContent.trim():baseName(file.name), paths=[];
+      each(tags(d,'itemref'),function(ir){ var h=man[ir.getAttribute('idref')]; if(h) paths.push(joinPath(dir,h)); });
+      var i=0, parts=['# '+title];
+      function next(){
+        if(i>=paths.length) return Promise.resolve();
+        busy('Leyendo EPUB · sección '+(i+1)+' de '+paths.length,(i+1)/paths.length*100);
+        return zipText(z,paths[i++]).then(function(x){ var m=htmlToMd(x); if(m && m.trim()) parts.push(m.trim()); }).then(next);
+      }
+      return next().then(function(){ return {md:parts.join('\n\n')+'\n'}; });
+    });
+  });
+}
+
+/* ---- RTF ---- */
+function rtfImport(file){
+  return readAs(file,'buf').then(function(buf){
+    var s=new TextDecoder('windows-1252').decode(new Uint8Array(buf));
+    var SKIP=/^(fonttbl|colortbl|stylesheet|info|pict|object|header|headerl|headerr|headerf|footer|footerl|footerr|footerf|themedata|colorschememapping|datastore|latentstyles|listtable|listoverridetable|rsidtbl|generator|xmlnsdecl|fldinst|filetbl|revtbl|mmathPr|wgrffmtfilter|panose|falt|bkmkstart|bkmkend|shppict|nonshppict|template|operator|author|title|subject|keywords|comment|doccomm|company|creatim|revtim|printim|buptim|expandedcolortbl|listtext|pntext|pntxtb|pntxta|xe|tc|atnid|atnauthor|annotation)$/;
+    var CP=new TextDecoder('windows-1252');
+    var st={b:0,i:0,skip:0,uc:1,fs:24}, stack=[], lines=[], runs=[], maxfs=0, skipN=0, i=0, n=s.length;
+    function emit(t){
+      if(st.skip) return;
+      if(skipN>0){ skipN--; return; }
+      if(st.fs>maxfs && t.trim()) maxfs=st.fs;
+      var last=runs[runs.length-1];
+      if(last && last.b===st.b && last.i===st.i) last.t+=t; else runs.push({t:t,b:st.b,i:st.i});
+    }
+    function par(){
+      if(st.skip) return;
+      var line=runs.map(function(r){ var x=r.t; if(r.i) x=around(x,'*'); if(r.b) x=around(x,'**'); return x; }).join('');
+      lines.push({t:line,fs:maxfs}); runs=[]; maxfs=0;
+    }
+    while(i<n){
+      var c=s.charAt(i);
+      if(c==='{'){ stack.push({b:st.b,i:st.i,skip:st.skip,uc:st.uc,fs:st.fs}); i++; continue; }
+      if(c==='}'){ var p=stack.pop(); if(p){ st=p; } i++; continue; }
+      if(c==='\\'){
+        var d=s.charAt(i+1);
+        if(d==='\\'||d==='{'||d==='}'){ emit(d); i+=2; continue; }
+        if(d==='~'){ emit(' '); i+=2; continue; }
+        if(d==='-'){ i+=2; continue; }
+        if(d==='_'){ emit('-'); i+=2; continue; }
+        if(d==='*'){ st.skip=1; i+=2; continue; }
+        if(d==='\''){ var hx=parseInt(s.substr(i+2,2),16); if(!isNaN(hx)) emit(CP.decode(new Uint8Array([hx]))); i+=4; continue; }
+        if(d==='\n'||d==='\r'){ par(); i+=2; continue; }
+        var m=/^([a-zA-Z]+)(-?\d+)? ?/.exec(s.substr(i+1,48));
+        if(!m){ i+=2; continue; }
+        i+=1+m[0].length;
+        var w=m[1], arg=m[2]===undefined?null:parseInt(m[2],10);
+        if(SKIP.test(w)){ st.skip=1; continue; }
+        switch(w){
+          case 'par': case 'sect': case 'page': case 'row': par(); break;
+          case 'line': emit('  \n'); break;
+          case 'tab': case 'cell': emit('\t'); break;
+          case 'b': st.b=arg===0?0:1; break;
+          case 'i': st.i=arg===0?0:1; break;
+          case 'plain': st.b=0; st.i=0; st.fs=24; break;
+          case 'fs': st.fs=arg||24; break;
+          case 'u': emit(String.fromCharCode(arg<0?arg+65536:arg)); skipN=st.uc; break;
+          case 'uc': st.uc=arg===null?1:arg; break;
+          case 'emdash': emit('—'); break;
+          case 'endash': emit('–'); break;
+          case 'bullet': emit('•'); break;
+          case 'lquote': emit('‘'); break;
+          case 'rquote': emit('’'); break;
+          case 'ldblquote': emit('“'); break;
+          case 'rdblquote': emit('”'); break;
+        }
+        continue;
+      }
+      if(c==='\r'||c==='\n'){ i++; continue; }
+      emit(c); i++;
+    }
+    par();
+    var sizes=[]; each(lines,function(l){ if(l.t.trim()) sizes.push(l.fs); });
+    sizes.sort(function(a,b){ return a-b; });
+    var body=sizes.length?sizes[Math.floor(sizes.length/2)]:24, out=[];
+    each(lines,function(l){
+      var t=l.t.replace(/\s+$/,''), plain=t.replace(/\*/g,'').trim();
+      if(plain && plain.length<100 && l.fs>=body*1.4) out.push('','## '+plain,'');
+      else if(plain && plain.length<100 && l.fs>=body*1.15) out.push('','### '+plain,'');
+      else out.push(t);
+    });
+    return {text:out.join('\n')};
+  });
+}
+
+/* ---- Correo .eml / .mht ---- */
+function bin2bytes(s){ var u=new Uint8Array(s.length); for(var i=0;i<s.length;i++) u[i]=s.charCodeAt(i)&255; return u; }
+function decodeWords(h){
+  return String(h||'').replace(/\?=\s+=\?/g,'?==?').replace(/=\?([^?]+)\?([BbQq])\?([^?]*)\?=/g,function(a,cs,enc,txt){
+    var bytes;
+    try{
+      if(/b/i.test(enc)) bytes=bin2bytes(atob(txt));
+      else bytes=bin2bytes(txt.replace(/_/g,' ').replace(/=([0-9A-F]{2})/gi,function(x,hh){ return String.fromCharCode(parseInt(hh,16)); }));
+      return decodeBytes(bytes,cs);
+    }catch(e){ return txt; }
+  });
+}
+function parseMime(raw){
+  var m=/\r?\n\r?\n/.exec(raw), head=m?raw.slice(0,m.index):raw, body=m?raw.slice(m.index+m[0].length):'';
+  var H={};
+  each(head.replace(/\r?\n[ \t]+/g,' ').split(/\r?\n/),function(l){ var k=l.indexOf(':'); if(k>0){ var key=l.slice(0,k).trim().toLowerCase(); if(!(key in H)) H[key]=l.slice(k+1).trim(); } });
+  var ct=H['content-type']||'text/plain', bm=/boundary="?([^";]+)"?/i.exec(ct);
+  var part={h:H,ct:ct.toLowerCase(),parts:[],text:'',name:''};
+  var nm=/name\*?="?([^";]+)"?/i.exec((H['content-disposition']||'')+';'+ct); if(nm) part.name=decodeWords(nm[1]);
+  if(bm && /multipart\//i.test(ct)){
+    var segs=body.split('--'+bm[1]);
+    for(var i=1;i<segs.length;i++){ var sg=segs[i]; if(/^--/.test(sg)) break; part.parts.push(parseMime(sg.replace(/^\r?\n/,''))); }
+    return part;
+  }
+  var cte=(H['content-transfer-encoding']||'').toLowerCase(), cs=(/charset="?([^";]+)"?/i.exec(ct)||[])[1], bytes;
+  try{
+    if(cte==='base64') bytes=bin2bytes(atob(body.replace(/\s+/g,'')));
+    else if(cte==='quoted-printable') bytes=bin2bytes(body.replace(/=\r?\n/g,'').replace(/=([0-9A-F]{2})/gi,function(x,hh){ return String.fromCharCode(parseInt(hh,16)); }));
+    else bytes=bin2bytes(body);
+    part.text=/^(text|message)\//.test(part.ct)?decodeBytes(bytes,cs):'';
+  }catch(e){ part.text=''; }
+  return part;
+}
+function mimeBody(p,out){
+  if(p.parts.length){
+    if(/alternative/.test(p.ct)){
+      var html=null, txt=null; each(p.parts,function(q){ if(/text\/html/.test(q.ct)) html=q; else if(/text\/plain/.test(q.ct)) txt=q; });
+      var pick=html||txt||p.parts[p.parts.length-1]; mimeBody(pick,out); return;
+    }
+    each(p.parts,function(q){ mimeBody(q,out); }); return;
+  }
+  var disp=(p.h['content-disposition']||'').toLowerCase();
+  if(/attachment/.test(disp) || (p.name && !/^text\//.test(p.ct))){ out.att.push(p.name||'adjunto'); return; }
+  if(/text\/html/.test(p.ct)){ var m=htmlToMd(p.text); if(m) out.body.push(m.trim()); }
+  else if(/text\/plain/.test(p.ct) && p.text.trim()) out.body.push(textToMd(p.text,opts).trim());
+}
+function emlImport(file){
+  return readAs(file,'buf').then(function(buf){
+    var u=new Uint8Array(buf), parts=[]; for(var i=0;i<u.length;i+=32768) parts.push(String.fromCharCode.apply(null,u.subarray(i,i+32768)));
+    var raw=parts.join('');
+    if(/^\d+\s*\r?\n/.test(raw)) raw=raw.replace(/^\d+\s*\r?\n/,'');
+    var msg=parseMime(raw), H=msg.h, out={body:[],att:[]};
+    mimeBody(msg,out);
+    var md=['# '+(decodeWords(H.subject)||baseName(file.name))], meta=[];
+    if(H.from) meta.push('- **De:** '+decodeWords(H.from));
+    if(H.to) meta.push('- **Para:** '+decodeWords(H.to));
+    if(H.cc) meta.push('- **CC:** '+decodeWords(H.cc));
+    if(H.date) meta.push('- **Fecha:** '+H.date);
+    if(meta.length) md.push(meta.join('\n'));
+    if(out.body.length) md.push(out.body.join('\n\n'));
+    if(out.att.length) md.push('## Adjuntos\n\n'+out.att.map(function(a){ return '- '+a; }).join('\n'));
+    return {md:md.join('\n\n')+'\n'};
+  });
+}
+
+/* ---- Otros formatos de texto ---- */
+function ipynbImport(t){
+  var nb=JSON.parse(t), lang=((nb.metadata||{}).kernelspec||{}).language||'python', out=[];
+  each(nb.cells||[],function(c){
+    var s=Array.isArray(c.source)?c.source.join(''):String(c.source||'');
+    if(!s.trim()) return;
+    out.push(c.cell_type==='markdown'?s.trim():fence(c.cell_type==='code'?lang:'',s));
+  });
+  return {md:out.join('\n\n')+'\n'};
+}
+function subImport(t){
+  var lines=t.replace(/\r/g,'').split('\n'), out=[], cur=[];
+  each(lines,function(l){
+    if(/^WEBVTT/.test(l) || /^\d+$/.test(l.trim()) || /-->/.test(l) || /^(NOTE|STYLE)\b/.test(l)) return;
+    if(!l.trim()){ if(cur.length){ out.push(cur.join(' ')); cur=[]; } return; }
+    cur.push(l.replace(/<[^>]+>/g,'').trim());
+  });
+  if(cur.length) out.push(cur.join(' '));
+  var paras=[], p='';
+  each(out,function(s){ p+=(p?' ':'')+s; if(p.length>500 && /[.!?…]$/.test(s)){ paras.push(p); p=''; } });
+  if(p) paras.push(p);
+  return {text:paras.join('\n\n')};
+}
+
+/* ---- Despachador ---- */
+function convertOne(file){
+  var kind=kindOf(file), ext=extOf(file.name);
+  if(ext==='pages'||ext==='key'||ext==='msg') return Promise.reject(new Error('Ese formato es cerrado. Expórtalo a Word, PDF o PowerPoint e inténtalo de nuevo.'));
+  busy('Leyendo '+file.name+'…');
+  switch(kind){
+    case 'pdf': return pdfImport(file);
+    case 'docx': return docxImport(file);
+    case 'doc': return docImport(file);
+    case 'odt': return odtImport(file);
+    case 'odp': return odpImport(file);
+    case 'pptx': return pptxImport(file);
+    case 'sheet': return sheetImport(file);
+    case 'epub': return epubImport(file);
+    case 'rtf': return rtfImport(file);
+    case 'eml': return emlImport(file);
+    case 'image': return imageImport(file);
+    case 'audio': case 'video': return audioImport(file);
+  }
+  return readAs(file,'buf').then(function(buf){
+    var u=new Uint8Array(buf);
+    if(looksBinary(u)) throw new Error('Formato no reconocido: '+(ext?'.'+ext:file.name));
+    var t=decodeBytes(u);
+    switch(kind){
+      case 'md': return {md:t};
+      case 'html': return {html:t};
+      case 'csv': return {md:'# '+baseName(file.name)+'\n\n'+rowsToMd(parseCsv(t,guessDelim(t)))+'\n'};
+      case 'json':
+        if(ext==='jsonl'||ext==='ndjson') return {md:fence('json',t)+'\n'};
+        try{ return {md:'# '+baseName(file.name)+'\n\n'+fence('json',JSON.stringify(JSON.parse(t),null,2))+'\n'}; }catch(e){ return {md:fence('json',t)+'\n'}; }
+      case 'code': return {md:'# '+file.name+'\n\n'+fence(CODE_LANG[ext]||ext,t)+'\n'};
+      case 'ipynb': return ipynbImport(t);
+      case 'sub': return subImport(t);
+    }
+    return {text:t};
+  });
+}
+function boldHeads(md){
+  return md.replace(/^\*\*([^*\n]{1,90})\*\*[ \t]*$/gm,function(a,t){ return /[.,;]$/.test(t.trim())?a:'## '+t.trim(); });
+}
+function resultToMd(r){
+  if(!r) return '';
+  if(typeof r.md==='string') return r.md;
+  if(typeof r.html==='string') return boldHeads(htmlToMd(r.html)||'');
+  return textToMd(r.text||'',opts);
+}
+/* ---- Páginas web ---- */
+function absolutize(doc,base){
+  each(doc.querySelectorAll('a[href]'),function(a){ try{ a.setAttribute('href',new URL(a.getAttribute('href'),base).href); }catch(e){} });
+  each(doc.querySelectorAll('img[src]'),function(im){ try{ im.setAttribute('src',new URL(im.getAttribute('src'),base).href); }catch(e){} });
+}
+function pageToMd(html,url){
+  var doc=new DOMParser().parseFromString(html,'text/html');
+  absolutize(doc,url);
+  var og=doc.querySelector('meta[property="og:title"]'), h1=doc.querySelector('h1');
+  var title=((og&&og.getAttribute('content'))||doc.title||(h1&&h1.textContent)||url).replace(/\s+/g,' ').trim();
+  var h1t=h1?h1.textContent.replace(/\s+/g,' ').trim():'';
+  if(h1t && h1t.length<150 && title.indexOf(h1t)>=0) title=h1t;
+  each(doc.querySelectorAll('script,style,noscript,template,nav,header,footer,aside,form,iframe,button,svg,dialog,'+
+    '[role=navigation],[role=banner],[role=contentinfo],[role=complementary],[aria-hidden=true],'+
+    '.navbox,.mw-editsection,.noprint,sup.reference,[class*=breadcrumb],[class*=cookie],[class*=newsletter],[class*=share],[class*=social],[class*=related],[class*=advert],[id*=comments],[class*=comments]'),
+    function(e){ if(e.parentNode) e.parentNode.removeChild(e); });
+  var els=[], scores=[], best=null, bestScore=0;
+  function add(el,v){ if(!el || el===doc.documentElement) return; var k=els.indexOf(el); if(k<0){ els.push(el); scores.push(0); k=els.length-1; } scores[k]+=v; }
+  each(doc.querySelectorAll('p,pre,blockquote,li'),function(p){
+    var len=p.textContent.replace(/\s+/g,' ').trim().length; if(len<25) return;
+    if(p.nodeName==='LI') len*=0.3;
+    add(p.parentNode,len); add(p.parentNode&&p.parentNode.parentNode,len/2);
+  });
+  for(var q=0;q<els.length;q++){ var sc=scores[q]*(/^(ARTICLE|MAIN)$/.test(els[q].nodeName)?1.25:1); if(sc>bestScore){ bestScore=sc; best=els[q]; } }
+  var root=(best && bestScore>250)?best:doc.body;
+  var md=(htmlToMd(root.innerHTML)||'').trim();
+  md=md.replace(/^#\s+(.+)\n+/,function(a,t){ return t.trim()===title?'':a; });
+  return '# '+title+'\n\n> Fuente: <'+url+'>\n\n'+md+'\n';
+}
+function jinaMd(url){
+  return fetch('https://r.jina.ai/'+url).then(function(r){ if(!r.ok) throw new Error('lector '+r.status); return r.text(); }).then(function(t){
+    var tm=/^Title:\s*(.*)$/m.exec(t), k=t.indexOf('Markdown Content:'), body=k>=0?t.slice(k+17).trim():t.trim();
+    if(!body) throw new Error('vacío');
+    var title=tm&&tm[1].trim()||url;
+    return {md:'# '+title+'\n\n> Fuente: <'+url+'>\n\n'+body.replace(/^#\s+(.+)\n+/,function(a,x){ return x.trim()===title?'':a; })+'\n'};
+  });
+}
+function urlName(url){
+  try{ var u=new URL(url), last=decodeURIComponent(u.pathname.split('/').pop()||''); return last||u.hostname; }catch(e){ return 'pagina'; }
+}
+function proxied(url){ return 'https://api.allorigins.win/raw?url='+encodeURIComponent(url); }
+function importUrl(url){
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  var name=urlName(url), ext=extOf(name), isFile=ext && KIND[ext] && KIND[ext]!=='html';
+  busy('Descargando '+url.replace(/^https?:\/\//,'').slice(0,60)+'…');
+  if(NATIVE){
+    return native('fetch',{url:url}).then(function(r){
+      if(!r || r.error) throw new Error((r&&r.error)||'No se pudo abrir el enlace');
+      if(r.html!==undefined) return {name:name,r:{md:pageToMd(r.html,r.url||url)}};
+      var f=b64ToFile(r.name||name,r.b64);
+      return (NATIVE_EXT[extOf(f.name)]?native('convert',{name:f.name,b64:r.b64}).then(function(x){ if(x&&x.error) throw new Error(x.error); return x; }):convertOne(f))
+        .then(function(x){ return {name:f.name,r:x}; });
+    });
+  }
+  function asFile(){
+    return fetch(url).catch(function(){ return fetch(proxied(url)); }).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.blob(); })
+      .then(function(b){ return convertOne(new File([b],name,{type:b.type})); });
+  }
+  var p=isFile?asFile().catch(function(){ return jinaMd(url); })
+    :jinaMd(url).catch(function(){
+      return fetch(proxied(url)).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); }).then(function(h){ return {md:pageToMd(h,url)}; });
+    });
+  return p.then(function(r){ return {name:isFile?name:url.replace(/^https?:\/\//,'').replace(/\/$/,''),r:r}; },
+    function(){ throw new Error('No se pudo leer la página. Revisa el enlace o la conexión.'); });
+}
+
+/* ---- Combinar: los archivos se insertan en el texto, en la posición del cursor ---- */
+var caret=null;
+src.addEventListener('blur',function(){ caret=src.selectionEnd; });
+src.addEventListener('focus',function(){ caret=null; });
+function insertBlocks(text){
+  var v=src.value, pos=(caret!==null && caret<=v.length)?caret:v.length;
+  if(document.activeElement===src) pos=src.selectionEnd;
+  var eol=v.indexOf('\n',pos); if(pos<v.length && eol>=0) pos=eol; else if(pos<v.length) pos=v.length;
+  var before=v.slice(0,pos).replace(/\s+$/,''), after=v.slice(pos).replace(/^\s+/,'');
+  src.value=(before?before+'\n\n':'')+text+(after?'\n\n'+after:'\n');
+  caret=(before?before.length+2:0)+text.length;
+}
+function applyResults(results){
+  var ok=results.filter(function(x){ return x.r && !x.err; });
+  if(!ok.length) return;
+  var wasEmpty=!src.value.trim();
+  if(richHtml){
+    var rm=(htmlToMd(richHtml)||'').trim();
+    src.value=rm?'<!-- archivo: texto pegado -->\n'+rm+'\n<!-- /archivo -->\n':src.value;
+    richHtml=null; richPlain='';
+  }
+  srcIsMd=false;
+  insertBlocks(ok.map(function(x){ return '<!-- archivo: '+x.name+' -->\n'+resultToMd(x.r).trim()+'\n<!-- /archivo -->'; }).join('\n\n'));
+  paintRich(); convert();
+  if(wasEmpty || !fnameEl.value) fnameEl.value=baseName(ok[0].name);
+  scheduleSave();
   if(isNarrow()) setView('md');
-  toast('Abierto: '+name);
+  toast(ok.length===1?(wasEmpty?'Convertido: ':'Agregado: ')+ok[0].name:ok.length+' elementos agregados');
+}
+var importing=false, queue=[];
+/* jobs: [{file}|{url}]; pre: resultados ya convertidos (p. ej. por el Mac) */
+function runImports(jobs,pre){
+  if(importing){ queue.push([jobs,pre]); return; }
+  if(!jobs.length && !(pre&&pre.length)) return;
+  importing=true;
+  var results=(pre||[]).slice(), i=0;
+  function next(){
+    if(i>=jobs.length) return Promise.resolve();
+    var j=jobs[i++], p;
+    if(j.url) p=importUrl(j.url);
+    else {
+      var f=j.file, ext=extOf(f.name);
+      if(NATIVE && NATIVE_EXT[ext]){
+        busy('Procesando '+f.name+'…');
+        p=readAs(f,'url').then(function(u){ return native('convert',{name:f.name,b64:String(u).replace(/^data:[^,]*,/,'')}); })
+          .then(function(r){ if(r && r.error) throw new Error(r.error); return {name:f.name,r:r}; });
+      } else p=convertOne(f).then(function(r){ return {name:f.name,r:r}; });
+    }
+    return p.then(function(x){ results.push(x); },
+      function(e){ results.push({name:j.url||j.file.name,err:e}); toast((e&&e.message)||'No se pudo convertir'); }).then(next);
+  }
+  next().then(function(){
+    busy(null); importing=false;
+    applyResults(results);
+    if(queue.length){ var q=queue.shift(); runImports(q[0],q[1]); }
+  });
+}
+function importFiles(list){ runImports(Array.prototype.slice.call(list||[]).map(function(f){ return {file:f}; })); }
+function importUrls(text){
+  var urls=String(text||'').split(/[\s,]+/).filter(function(u){ return /^(https?:\/\/|www\.)\S+\.\S+/i.test(u) || /^[\w-]+(\.[\w-]+)+(\/\S*)?$/.test(u); });
+  if(!urls.length){ toast('Escribe un enlace válido, por ejemplo https://…'); return false; }
+  runImports(urls.map(function(u){ return {url:u}; }));
+  return true;
+}
+function b64ToFile(name,b64){
+  var bin=atob(b64), u=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+  return new File([u],name);
+}
+
+/* Resultado de la app del Mac: lista de {name, md|text|html|b64|error} */
+function applyNative(list){
+  if(!list) return;
+  if(!Array.isArray(list)) list=[list];
+  var direct=[], jobs=[];
+  each(list,function(x){
+    if(x.error){ toast(x.error); return; }
+    if(x.b64!==undefined) jobs.push({file:b64ToFile(x.name,x.b64)});
+    else direct.push({name:x.name,r:x.md!==undefined?{md:x.md}:(x.html!==undefined?{html:x.html}:{text:x.text||''})});
+  });
+  runImports(jobs,direct);
 }
 function doOpen(){
   if(NATIVE){
-    native('open').then(function(r){ if(r && typeof r.text==='string') loadFile(r.name||'archivo.txt',r.text); }).catch(function(){ toast('No se pudo abrir el archivo'); });
+    native('open').then(function(r){ busy(null); applyNative(r); }).catch(function(e){ busy(null); toast((e&&e.message)||'No se pudo abrir el archivo'); });
     return;
   }
   $('file').value=''; $('file').click();
 }
 tap($('bOpen'),doOpen);
-$('file').addEventListener('change',function(){
-  var f=this.files&&this.files[0]; if(!f) return;
-  var rd=new FileReader();
-  rd.onload=function(){ loadFile(f.name,String(rd.result||'')); };
-  rd.onerror=function(){ toast('No se pudo leer el archivo'); };
-  rd.readAsText(f);
-});
+$('file').addEventListener('change',function(){ importFiles(this.files); });
 
-/* arrastrar y soltar */
-var paneIn=$('paneIn');
-paneIn.addEventListener('dragover',function(e){ if(e.dataTransfer && e.dataTransfer.types && Array.prototype.indexOf.call(e.dataTransfer.types,'Files')>=0){ e.preventDefault(); paneIn.className='pane drop'; } });
-paneIn.addEventListener('dragleave',function(){ paneIn.className='pane'; });
-paneIn.addEventListener('drop',function(e){
-  paneIn.className='pane';
-  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(!f) return;
+/* barra de enlace */
+function showLink(on){
+  $('linkbar').className='linkbar'+(on?'':' hide');
+  if(on){ setTimeout(function(){ $('urlIn').focus(); },50); } else $('urlIn').blur();
+}
+function goLink(){ if(importUrls($('urlIn').value)){ $('urlIn').value=''; showLink(false); } }
+tap($('bLink'),function(){ showLink($('linkbar').className.indexOf('hide')>=0); });
+tap($('bUrlGo'),goLink);
+tap($('bUrlX'),function(){ showLink(false); });
+$('urlIn').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); goLink(); } else if(e.key==='Escape'){ showLink(false); } });
+
+/* arrastrar y soltar archivos o enlaces en cualquier parte */
+var paneIn=$('paneIn'), dragDepth=0;
+function dragKind(e){
+  var t=e.dataTransfer&&e.dataTransfer.types; if(!t) return '';
+  if(Array.prototype.indexOf.call(t,'Files')>=0) return 'files';
+  if(Array.prototype.indexOf.call(t,'text/uri-list')>=0) return 'url';
+  return '';
+}
+document.addEventListener('dragenter',function(e){ if(dragKind(e)){ dragDepth++; paneIn.className='pane drop'; } });
+document.addEventListener('dragover',function(e){ if(dragKind(e)) e.preventDefault(); });
+document.addEventListener('dragleave',function(e){ if(dragKind(e) && --dragDepth<=0){ dragDepth=0; paneIn.className='pane'; } });
+document.addEventListener('drop',function(e){
+  var k=dragKind(e); dragDepth=0; paneIn.className='pane';
+  if(!k) return;
   e.preventDefault();
-  var rd=new FileReader(); rd.onload=function(){ loadFile(f.name,String(rd.result||'')); }; rd.readAsText(f);
+  caret=null;
+  if(k==='files') importFiles(e.dataTransfer.files);
+  else importUrls(e.dataTransfer.getData('text/uri-list').split('\n').filter(function(l){ return l && l.charAt(0)!=='#'; }).join(' '));
 });
+window.addEventListener('error',function(e){ busy(null); importing=false; toast('Error: '+(e.message||'desconocido')); });
 
 /* ---- ejemplo ---- */
 var SAMPLE='Plan de lanzamiento del boletín\n\nEste documento resume los pasos para publicar el boletín mensual del equipo. Se puede copiar desde un correo, un PDF o una página web y la app lo convierte en Markdown limpio, listo para Obsidian, GitHub o cualquier editor.\n\nOBJETIVOS\n\n• Publicar el primer número antes del viernes\n• Mantener un formato claro y fácil de leer\n   ◦ Títulos cortos\n   ◦ Listas en vez de párrafos largos\n• Medir cuántas personas lo abren\n\nPasos:\n1) Reunir las noticias de la semana\n2) Redactar el borrador\n3) Revisar ortografía y enlaces\n4) Enviar a todo el equipo\n\nResponsable: Equipo de comunicaciones\nFecha de envío: viernes 10:00\nFormato: Markdown\n\nTareas pendientes\n\n[x] Elegir el nombre del boletín\n[ ] Diseñar la portada\n[ ] Definir la lista de destinatarios\n\nPresupuesto\n\nÍtem\tCantidad\tCosto\nDiseño\t1\t$50.000\nImpresión\t200\t$80.000\nDistribución\t1\t$20.000\n\n"Lo simple, si es claro, se lee dos veces."\n\nMás información en https://www.markdownguide.org o escribe a equipo@ejemplo.cl\n';
-tap($('bSample'),function(){ setSource(SAMPLE,'',false); fnameEl.value=''; toast('Ejemplo cargado'); });
+tap($('bSample'),function(){ setSource(SAMPLE,'',false); paintRich(); fnameEl.value=''; toast('Ejemplo cargado'); });
 
 /* ---- borrar con deshacer ---- */
 tap($('bClear'),function(){
   if(!src.value && !mdEl.value) return;
-  var snap={src:src.value,md:mdEl.value,rich:richHtml,richPlain:richPlain,manual:mdManual,fname:fnameEl.value};
-  src.value=''; mdEl.value=''; richHtml=null; richPlain=''; mdManual=false; fnameEl.value='';
+  var snap={src:src.value,md:mdEl.value,rich:richHtml,richPlain:richPlain,manual:mdManual,fname:fnameEl.value,isMd:srcIsMd,lbl:importLabel};
+  src.value=''; mdEl.value=''; richHtml=null; richPlain=''; mdManual=false; fnameEl.value=''; srcIsMd=false;
   paintRich(); paintBadge(); afterMd();
   toast('Todo borrado','Deshacer',function(){
-    src.value=snap.src; mdEl.value=snap.md; richHtml=snap.rich; richPlain=snap.richPlain; mdManual=snap.manual; fnameEl.value=snap.fname;
+    src.value=snap.src; mdEl.value=snap.md; richHtml=snap.rich; richPlain=snap.richPlain; mdManual=snap.manual; fnameEl.value=snap.fname; srcIsMd=snap.isMd; importLabel=snap.lbl;
     paintRich(); paintBadge(); afterMd();
   });
   if(isNarrow()) setView('in');
@@ -1149,14 +2057,14 @@ document.addEventListener('keydown',function(e){
 
 /* API para la app nativa del Mac (menús) */
 window.MDApp={copy:doCopy,download:doDownload,share:doShare,paste:doPaste,open:doOpen,
-  clear:function(){ $('bClear').click(); }, sample:function(){ $('bSample').click(); }, view:setView};
+  clear:function(){ $('bClear').click(); }, progress:function(m,p){ busy(m,p); }, importFiles:importFiles, applyNative:applyNative, link:function(){ showLink(true); }, importUrls:importUrls, pageToMd:pageToMd, sample:function(){ $('bSample').click(); }, view:setView};
 
 /* ---------- restaurar ---------- */
 paintOpts();
 src.value=lsGet('src','');
 var savedRich=lsGet('rich','');
 if(savedRich){ richHtml=savedRich; richPlain=lsGet('richPlain',''); }
-fnameEl.value=lsGet('fname','');
+fnameEl.value=lsGet('fname',''); srcIsMd=lsGet('isMd','0')==='1'; importLabel=lsGet('lbl','');
 paintRich();
 if(lsGet('manual','0')==='1'){ mdEl.value=lsGet('md',''); mdManual=true; paintBadge(); afterMd(); }
 else if(src.value) convert();
