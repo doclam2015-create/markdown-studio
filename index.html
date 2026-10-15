@@ -38,6 +38,11 @@ body{
 }
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-appearance:none;appearance:none}
 button:active{opacity:.7}
+.hlp{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.45);display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;padding:16px}
+.hlp .card{background-color:var(--surface);color:var(--text);border-radius:16px;max-width:640px;width:100%;max-height:calc(100vh - 32px);overflow:auto;-webkit-overflow-scrolling:touch;padding:20px 22px;box-shadow:0 10px 40px rgba(0,0,0,.3);font-size:14.5px;line-height:1.45}
+.hlp h2{margin:0 0 6px;font-size:19px}.hlp h3{margin:14px 0 2px;font-size:15px}.hlp p{margin:0;color:var(--muted)}
+.hlp ol{margin:4px 0 0;padding-left:20px}.hlp td{padding:3px 12px 3px 0;vertical-align:top}.hlp td:first-child{font-weight:700;white-space:nowrap}
+.hlp .close{display:block;margin:16px auto 0;padding:9px 26px;border-radius:9px;border:0;background-color:var(--accent);color:var(--onAccent);font-weight:600;font-size:15px}
 .hide{visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important;padding-top:0!important;padding-bottom:0!important;margin-top:0!important;margin-bottom:0!important;border-width:0!important}
 .vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;left:-9999px;top:0}
 
@@ -292,6 +297,7 @@ textarea::placeholder{color:var(--muted);opacity:.8}
           <button class="tbtn" id="bOpen" title="Abrir archivos: PDF, Word, Excel, PowerPoint, imágenes, audio…"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Archivo</span></button>
           <button class="tbtn" id="bLink" title="Importar una página web"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>Web</span></button>
           <button class="tbtn" id="bSample" title="Cargar ejemplo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><span>Ejemplo</span></button>
+          <button class="tbtn" id="bHelp" title="Ayuda (⌘?)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></button>
           <button class="tbtn danger" id="bClear" title="Borrar todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14"/></svg></button>
         </div>
       </div>
@@ -350,6 +356,24 @@ textarea::placeholder{color:var(--muted);opacity:.8}
 </div>
 
 <input type="file" id="file" class="vh" multiple>
+<div class="hlp hide" id="helpDlg" role="dialog" aria-label="Ayuda de Markdown Studio"><div class="card">
+<h2>Ayuda de Markdown Studio</h2>
+<p>Convierte cualquier texto, archivo o página web en Markdown limpio. Todo se procesa en tu dispositivo, sin conexión y sin costo.</p>
+<h3>1. Texto (entrada)</h3>
+<p>Escribe o pega texto: se convierte al instante. Si pegas desde una web, Word o Google Docs, se conservan negritas, enlaces, listas y tablas («Usar texto plano» lo descarta).</p>
+<ol><li>Pega con el botón de portapapeles o con ⌘V.</li><li>Agrega archivos con el botón de carpeta o arrastrándolos: se insertan donde está el cursor.</li><li>«Web» importa una o varias páginas por su enlace.</li></ol>
+<h3>2. Archivos que entiende</h3>
+<p>PDF (con OCR si es escaneado), Word, RTF, OpenDocument, Excel, Numbers, CSV, PowerPoint, EPUB, correo .eml, HTML, JSON, subtítulos, código, imágenes con texto (OCR) y audio o video (transcripción).</p>
+<h3>3. Markdown</h3>
+<p>Muestra el resultado y se puede editar. La barra de formato agrega encabezados, negrita, cursiva, listas, tareas, citas, código, enlaces, tablas y separadores. Escribe el nombre del archivo en «documento».</p>
+<h3>4. Vista previa</h3>
+<p>Muestra cómo se verá el documento ya formateado.</p>
+<h3>5. Copiar, descargar y compartir</h3>
+<p>Los botones de abajo copian el Markdown, descargan el archivo .md o lo comparten. El botón rojo borra todo (con opción de deshacer). «Cargar ejemplo» muestra una demostración.</p>
+<h3>Atajos de teclado (Mac)</h3>
+<table><tr><td>⌘N</td><td>Nuevo</td></tr><tr><td>⌘O</td><td>Agregar archivos</td></tr><tr><td>⌘L</td><td>Importar página web</td></tr><tr><td>⌘S</td><td>Guardar Markdown</td></tr><tr><td>⇧⌘C</td><td>Copiar Markdown</td></tr><tr><td>⇧⌘V</td><td>Pegar como texto nuevo</td></tr><tr><td>⇧⌘E</td><td>Compartir</td></tr><tr><td>⌘1 / ⌘2 / ⌘3</td><td>Texto, Markdown, Vista previa</td></tr><tr><td>⌘?</td><td>Esta ayuda</td></tr></table>
+<button class="close" id="helpClose">Cerrar</button>
+</div></div>
 <div class="toast" id="toast"><span class="ok">&#10003;</span><span id="toastMsg"></span><button id="toastBtn" class="hide">Deshacer</button></div>
 
 <script>
@@ -2055,8 +2079,14 @@ document.addEventListener('keydown',function(e){
   else if(k==='1' && e.altKey){ e.preventDefault(); setView('in'); }
 });
 
+function showHelp(on){ $('helpDlg').classList.toggle('hide', on===false); }
+$('bHelp').addEventListener('click',function(){ showHelp(true); });
+$('helpClose').addEventListener('click',function(){ showHelp(false); });
+$('helpDlg').addEventListener('click',function(e){ if(e.target===$('helpDlg')) showHelp(false); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') showHelp(false); else if((e.metaKey||e.ctrlKey) && e.key==='?'){ e.preventDefault(); showHelp(true); } });
+
 /* API para la app nativa del Mac (menús) */
-window.MDApp={copy:doCopy,download:doDownload,share:doShare,paste:doPaste,open:doOpen,
+window.MDApp={help:function(){ showHelp(true); },copy:doCopy,download:doDownload,share:doShare,paste:doPaste,open:doOpen,
   clear:function(){ $('bClear').click(); }, progress:function(m,p){ busy(m,p); }, importFiles:importFiles, applyNative:applyNative, link:function(){ showLink(true); }, importUrls:importUrls, pageToMd:pageToMd, sample:function(){ $('bSample').click(); }, view:setView};
 
 /* ---------- restaurar ---------- */

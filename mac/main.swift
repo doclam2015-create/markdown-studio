@@ -242,6 +242,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
         winItem.submenu = win
         NSApp.windowsMenu = win
 
+        let helpItem = NSMenuItem(); bar.addItem(helpItem)
+        let help = NSMenu(title: "Ayuda")
+        help.addItem(jsItem("Ayuda de Markdown Studio", "MDApp.help()", "?"))
+        helpItem.submenu = help
+        NSApp.helpMenu = help
+
         NSApp.mainMenu = bar
     }
 }
